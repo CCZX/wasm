@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./index.js"></script>
+
+  <script>
+    Module.onRuntimeInitialized = () => {
+      const ptr = Module._fibonacci(10);
+
+      let str = ''
+      for (let i = 0; i < 10; i++) {
+        str += Module.HEAP32[(ptr >> 2) + i];
+        str += ' '        
+      }
+
+      console.log(str)
+    }
+  </script>
+</body>
+</html>

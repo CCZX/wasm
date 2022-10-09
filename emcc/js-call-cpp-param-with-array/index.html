@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./index.js"></script>
+
+  <script>
+    Module.onRuntimeInitialized = () => {
+      const typedArr = new Int32Array([0, 1, 2]);
+
+      const ptr = Module._malloc(typedArr.length * typedArr.BYTES_PER_ELEMENT)
+
+      Module.HEAP32.set([...typedArr], ptr / typedArr.BYTES_PER_ELEMENT)
+
+      Module.setTheValue(ptr, typedArr.length); //8代表sizeof(double)
+    }
+  </script>
+</body>
+</html>

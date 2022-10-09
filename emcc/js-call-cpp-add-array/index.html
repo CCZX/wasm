@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./index.js"></script>
+
+  <script>
+    Module.onRuntimeInitialized = () => {
+      const array = [0, 1, 2, 3]
+      const length = array.length
+      const inputPtr = Module._malloc(length * 4);
+      const outputPtr = Module._malloc(length * 4);
+      const inputBuffer = new Uint32Array(Module.HEAPU8.buffer, inputPtr, length)
+      const outputBuffer = new Uint32Array(Module.HEAPU8.buffer, outputPtr, length)
+      inputBuffer.set(array)
+
+      console.log(inputBuffer, outputBuffer)
+
+      // Module.ccall('addOne', null, ['number', 'number', 'number'], [inputBuffer.byteOffset, outputBuffer.byteOffset, length])
+      // Module.addOne(inputBuffer.byteOffset, outputBuffer.byteOffset, length)
+      Module.addOne(inputPtr, outputPtr, length)
+      const outputArray = new Int32Array(outputBuffer.buffer, outputBuffer.byteOffset, length)
+
+      console.log([...outputArray])
+    }
+  </script>
+</body>
+</html>
